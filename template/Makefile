@@ -4,6 +4,7 @@ CXX_FLAGS := -std=c++17 -ggdb
 BIN     := bin
 SRC     := src
 INCLUDE := include
+EIGEN := ~/Downloads/eigen/
 
 LIBRARIES   := #lib
 EXECUTABLE  := main
@@ -16,7 +17,7 @@ run: clean all
 	./$(BIN)/$(EXECUTABLE)
 
 $(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
-	$(CXX) $(CXX_FLAGS) -I $(INCLUDE) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) -I $(INCLUDE) -I $(EIGEN) $^ -o $@ $(LIBRARIES)
 
 clean:
 	-rm $(BIN)/*
