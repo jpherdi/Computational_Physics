@@ -14,7 +14,7 @@ all: $(BIN)/$(EXECUTABLE)
 run: clean all
 	clear
 	./$(BIN)/$(EXECUTABLE)
-	python script.py
+	python src/script.py
 	@ # cp ./docs/build/main.pdf ./docs.pdf
 
 $(BIN)/$(EXECUTABLE): $(SRC)/*.cpp

@@ -5,32 +5,6 @@
 
 const static Eigen::IOFormat CSVFormat(Eigen::StreamPrecision, Eigen::DontAlignCols, "\t", "\n");
 
-// int saveMatrix(Eigen::MatrixXd &mat, std::string filename, std::string header)
-// {
-// 	std::ofstream output;
-// 	output.open(filename, std::fstream::trunc);
-// 	if (output.is_open())
-// 	{
-// 		output << "# "+header << "\n" << mat.format(CSVFormat);
-// 		output.close();
-// 		return 1;
-// 	}
-// 	return 0;
-// }
-
-// int saveVector(Eigen::VectorXd &mat, std::string filename, std::string header)
-// {
-// 	std::ofstream output;
-// 	output.open(filename, std::fstream::trunc);
-// 	if (output.is_open())
-// 	{
-// 		output << "# "+header << "\n" << mat.format(CSVFormat);
-// 		output.close();
-// 		return 1;
-// 	}
-// 	return 0;
-// }
-
 int main()
 {
 	// Initialization of vectors and matrices
@@ -57,7 +31,7 @@ int main()
     Eigen::MatrixXd L = matPivLU.matrixLU().triangularView<Eigen::UnitLower>();
     Eigen::MatrixXd P = matPivLU.permutationP();
     Eigen::MatrixXd P_inv = P.inverse();
-    Eigen::MatrixXd A_new = P_inv * L * U;
+    Eigen::MatrixXd matA_new = P_inv * L * U;
 
 	// d) Do the same with the reversed (rev) basis vectors in the matrix.  
 	Eigen::MatrixXd matA_rev(3,3);
@@ -72,8 +46,31 @@ int main()
     Eigen::MatrixXd L_rev = matPivLU_rev.matrixLU().triangularView<Eigen::UnitLower>();
     Eigen::MatrixXd P_rev = matPivLU_rev.permutationP();
     Eigen::MatrixXd P_inv_rev = P_rev.inverse();
-    Eigen::MatrixXd A_new_rev = P_inv_rev * L_rev * U_rev;
+    Eigen::MatrixXd matA_new_rev = P_inv_rev * L_rev * U_rev;
 
+	std::ofstream output;
+	output.open("bin/Aufgabe1.txt", std::ofstream::out | std::ofstream::trunc);
+	output << "Matrix U:\n" << U.format(CSVFormat) << std::endl;
+	output << "Matrix L:\n" <<L.format(CSVFormat) << std::endl;
+	output << "Matrix P:\n" << P.format(CSVFormat) << std::endl;
+	output << "Matrix A:\n" << matA.format(CSVFormat) << std::endl;
+	output << "Matrix A_new:\n" << matA_new.format(CSVFormat) << std::endl;
+	output << "Vector x:\n" << x.format(CSVFormat) << std::endl;
+	output << "Vector x_new:\n" << x_new.format(CSVFormat) << std::endl;
+	output << "Vector y:\n" << y.format(CSVFormat) << std::endl;
+	output << "Vector y_new:\n" << y_new.format(CSVFormat) << std::endl;
+
+
+	output << "Matrix U_rev:\n" << U_rev.format(CSVFormat) << std::endl;
+	output << "Matrix L_rev:\n" <<L_rev.format(CSVFormat) << std::endl;
+	output << "Matrix P_rev:\n" << P_rev.format(CSVFormat) << std::endl;
+	output << "Matrix A_rev:\n" << matA_rev.format(CSVFormat) << std::endl;
+	output << "Matrix A_new_rev:\n" << matA_new_rev.format(CSVFormat) << std::endl;
+	output << "Vector x_rev:\n" << x.format(CSVFormat) << std::endl;
+	output << "Vector x_new_rev:\n" << x_new_rev.format(CSVFormat) << std::endl;
+	output << "Vector y_rev:\n" << y.format(CSVFormat) << std::endl;
+	output << "Vector y_new_rev:\n" << y_new_rev.format(CSVFormat) << std::endl;
+	output.close();
 
 	// Aufgabe 2 
 
@@ -100,7 +97,7 @@ int main()
 	Eigen::MatrixXd xy(10, 2);
 	xy << x2, y2;
 	std::ofstream file;
-	file.open("bin/python_results.txt", std::ofstream::out | std::ofstream::trunc);
+	file.open("bin/python_Aufgabe2.txt", std::ofstream::out | std::ofstream::trunc);
 	file << "# x, y\n" << xy.format(CSVFormat) << std::endl; 
 	file << "#m, n\n " << alpha.transpose().format(CSVFormat);
 	file.close();
