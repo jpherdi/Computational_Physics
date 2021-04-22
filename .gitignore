@@ -1,5 +1,7 @@
 # Latex
 build/
+.vscode/
+bin/
 
 # Prerequisites
 *.d
