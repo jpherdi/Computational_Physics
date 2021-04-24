@@ -1,6 +1,7 @@
 CXX       := g++
 CXX_FLAGS := -std=c++17 -ggdb -O3 -ffast-math
 PY 		  := python
+PDF_VIEWER := okular
 
 BIN     := bin
 SRC     := src
@@ -16,23 +17,30 @@ TEX_FILE := main.tex
 TEX_OUTPUT := protokoll.pdf
 OUTPUT := output
 
-all: run
+all: $(BIN)/$(EXECUTABLE)
 
-finish: $(TEX_OUTPUT)
-	cp $(TEX)/$(BUILD)/main.pdf $(TEX_OUTPUT)
+run: $(BIN)/$(EXECUTABLE)
+	clear 
+	./$(BIN)/$(EXECUTABLE)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
+show: $(OUTPUT)/*.pdf
+	$(PDF_VIEWER) $(OUTPUT)/*.pdf
+
+finish: $(TEX)/$(BUILD)/*.pdf 
+	 cp $(TEX)/$(BUILD)/*.pdf $(TEX_OUTPUT)
+
+$(OUTPUT)/*.txt: $(BIN)/$(EXECUTABLE)
+	clear
+	./$(BIN)/$(EXECUTABLE)
+
+$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp | $(BIN) $(OUTPUT)
 	clear
 	$(CXX) $(CXX_FLAGS) -I $(INCLUDE) -I $(EIGEN) $^ -o $@ $(LIBRARIES)
 
-run: clean $(BIN)/$(EXECUTABLE)
-	clear
-	./$(BIN)/$(EXECUTABLE)
-	
-py: run
+$(OUTPUT)/*.pdf: $(OUTPUT)/*.txt
 	$(PY) $(SRC)/*.py
 
-$(TEX_OUTPUT): py
+$(TEX)/$(BUILD)/*.pdf: $(TEX)/*.tex $(TEX)/content/*.tex  | $(OUTPUT)/*.pdf $(TEX)/$(BUILD)
 	latexmk \
 	-synctex=1 \
 	-interaction=nonstopmode \
@@ -41,10 +49,11 @@ $(TEX_OUTPUT): py
 	-outdir=$(TEX)/$(BUILD) \
 	$(TEX)/$(TEX_FILE)
 
+$(BIN) $(TEX)/$(BUILD) $(OUTPUT): 
+	mkdir $@
 
 clean:
-	-rm $(BIN)/*
-	-rm $(BUILD)/*
-	-rm $(OUTPUT)/*
-	-rm $(TEX_OUTPUT)
+	-rm -r $(BIN)
+	-rm -r $(TEX)/$(BUILD)
+	-rm -r $(OUTPUT)
 	
