@@ -1,0 +1,87 @@
+\section*{Aufgabe 1}
+
+\begin{enumerate}[label=\alph*)]
+
+\item Das Kristallsystem ist ein hcp-Gitter.
+
+\item Eine Fehlstelle befindet sich bei $\vec x = (2,0,2)^T$. Die neuen Koordinaten in der Basis $\{\vec a_1, \vec a_2, \vec a_3\}$ sollen ohne Matrix Inversion gefunden werden.
+Das Problem lässt sich als Lineares Gleichungssystem darstellen in der Form $A \cdot \vec x' = \vec x$.
+
+Die Matrix $A = \{\vec a_1, \vec a_2, \vec a_3\}$ lässt sich in dafür in eine obere und untere Dreiecksmatrix aufteilen. Die obere Dreiecksmatrix U ergibt sich somit zu 
+\begin{equation*}
+U = \begin{pmatrix}
+       \num{0.866025}	&\num{0.866025}	& 0 \\
+        0	        &-1	        & 0 \\
+        0	        &0	        & 1 \\
+    \end{pmatrix}.
+\end{equation*}
+Die dazugehörige untere Dreiecksmatrix L ist dann
+\begin{equation*}
+    L = \begin{pmatrix}
+    1	    & 0 &	0 \\
+    0.57735	& 1 &	0 \\
+    0	    & 0 &	1 \\
+\end{pmatrix}.
+\end{equation*}
+Die Pivoting Matrix P ergibt sich zu 
+\begin{equation*}
+    P = \begin{pmatrix}
+        0	&1 &	0 \\
+        1	&0 &	0 \\
+        0	&0 &	1 \\
+\end{pmatrix}.
+\end{equation*}
+
+Die Matrix $A$ lässt sich daraus mit dem Formalismus $A = P^{-1}\cdot L\cdot R$ rekonstruieren zu
+\begin{equation*}
+    A = \begin{pmatrix}
+        \num{0.5}	        &\num{-0.5}	    &0 \\
+        \num{0.866025}	& \num{0.866025}	&0 \\
+        0	        &0	        &1 \\
+\end{pmatrix}.
+\end{equation*}
+
+Der resultierende neue Vektor $\vec x'$ ergibt sich mit der LU-Zerlegung zu
+$\vec x' = \begin{pmatrix}
+2\\
+-2\\
+2\\
+\end{pmatrix}$.
+
+\item Eine weitere Fehlstelle liegt bei $\vec y = (1, 2\sqrt{3}, 3)^T$. Um die Koordinate in das neue System zu transformieren muss nicht alles erneut berechnet werden. Die Matrizen $L, U$ und $P$ sind genau die gleichen und nur der Vektor $x$ muss ersetzt werden.
+$P \cdot \vec y = \vec {y'}$ ist eine $\mathcal{O}(n)$ Operation, denn es ist nur ein Umsortieren. Es wird $U \cdot \vec x = \vec c$ definiert. Es gilt $L \cdot \vec c = \vec b'$. Damit bekommen wir durch die untere Dreiecksmatrixform von $L$ die Rekursionsgleichung \begin{equation*}
+    c_j = b_j' - \sum_{i = 1}^{j-1} (L_{j, i} \cdot c_i)
+\end{equation*} 
+mit $L_{i,i} = 1$. 
+Damit ergibt sich für jedes $c_j$ eine Komplexität von $\mathcal{O}(j)$, das heißt für alle $c_j$ ergibt sich dann $\mathcal{O}(n^2)$. Analog zum eben beschriebenen Gleichungssystem muss nun das System $U \cdot \vec x = \vec c$ unter Ausnutzung, dass U eine obere Dreiecksmatrix ist, gelöst werden. Dafür ergibt sich eine Rekursionsformel mit einer Komplexität von $\mathcal{O}(n^2)$.
+
+Insgesamt ergibt sich eine Komplexität von $\mathcal{O}(n^2)$ für das Vorwärts- und Rückwärtseinsetzen. Im Vergleich dazu hat das Gauß-Verfahren eine Komplexität von $\mathcal{O}(n^3)$.
+
+Der resultierende neue Vektor $\vec y'$ ergibt sich mit der LU-Zerlegung zu
+$\vec y' = \begin{pmatrix}
+    3\\
+    1\\
+    3\\
+\end{pmatrix}$.
+\item Die Resultate sind dieselben. Der Unterschied liegt nur in den Matrizen $P, L$ und $U$. Die sind permutiert. Die neuen Matrizen ergeben sich zu
+\begin{equation*}
+   P = \begin{pmatrix}
+    0	&0	&1\\
+    0	&1	&0\\
+    1	&0	&0\\
+    \end{pmatrix},
+    L = \begin{pmatrix}
+        1	&0	        &0 \\
+        0	&1	        &0 \\
+        0	&\num{-0.57735}   &1 \\
+    \end{pmatrix},
+    U = \begin{pmatrix}
+        1	&0	        &0 \\
+        0	&\num{0.866025}	&\num{0.866025} \\
+        0	&0	        &1 \\
+    \end{pmatrix}.
+\end{equation*}
+
+\item Wären die primitiven Gittervektoren paarweise orthogonal, wäre die Invertierung nur eine Transponierung und die Berechnung würde sich auf ein lineares Problem $\mathcal{O}(n)$ reduzieren.
+\end{enumerate}
+
