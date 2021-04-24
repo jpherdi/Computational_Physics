@@ -7,7 +7,7 @@ EIGEN := ~/Downloads/eigen/
 OUTDIR := ./docs/build
 TEX_FILE := ./docs/main.tex
 
-LIBRARIES   := #lib
+LIBRARIES   := lib
 EXECUTABLE  := main
 
 all: $(BIN)/$(EXECUTABLE)
@@ -25,7 +25,7 @@ tex: clean clean_tex all
 	cp $(OUTDIR)/main.pdf ./docs.pdf
 
 $(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
-	$(CXX) $(CXX_FLAGS) -I ./lib/ -I $(EIGEN) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) -I $(LIBRARIES) -I $(EIGEN) $^ -o $@ 
 
 clean:
 	-rm $(BIN)/*
