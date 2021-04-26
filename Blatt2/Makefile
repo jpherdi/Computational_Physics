@@ -39,7 +39,7 @@ $(BIN)/$(EXECUTABLE): $(SRC)/*.cpp | $(BIN) $(OUTPUT)
 	clear
 	$(CXX) $(CXX_FLAGS) -I $(INCLUDE) -I $(EIGEN) $^ -o $@ $(LIBRARIES)
 
-$(OUTPUT)/*.pdf: $(OUTPUT)/*.txt
+$(OUTPUT)/*.pdf: $(OUTPUT)/*.txt $(SRC)/*.py
 	$(PY) $(SRC)/*.py
 
 $(TEX)/$(BUILD)/*.pdf: $(TEX)/*.tex $(TEX)/content/*.tex  | $(OUTPUT)/*.pdf $(TEX)/$(BUILD)

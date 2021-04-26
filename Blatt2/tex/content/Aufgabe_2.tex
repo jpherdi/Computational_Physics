@@ -16,5 +16,5 @@
     \item Die Zeit scheint durch die LU-Zerlegung dominiert zu werden. Diese geht offenbar mit $\mathcal{O}(N^3)$, da mit einer Größenordnung in $N$ die Zeitgrößenordnung um einen Faktor \num{3} zunimmt. Das erzeugen der zufälligen Vektoren und Matrizen geht mit $\mathcal{O}(N^2)$ und das Lösen geht mit $\mathcal{O}(N)$. Das ist alles wie erwartet.
     Bei $N = \num{1000000}$ würde das Programm also in etwa \num{9} Größenordnungen länger dauern als bei $N=\num{1000}$, was einer Zeit von \SI{1e8}{\second} entspricht. 
     Die Optimierung würde sich offenbar am meisten bzgl. der LU-Zerlegung auszahlen. Solange diese mit $\mathcal{O}(N^3)$ läuft, sind die anderen beiden Teile des Programms für die Laufzeit zu vernachlässigen.
-    \item 
+    \item Ein weiterer numerischer Faktor, der das Rechnen mit beliebig großen Matrizen einschränkt, ist der Speicherbedarf. In \texttt{C++} gibt es mehrere Arten über die Objekte im Speicher angelegt werden, aber egal wie gibt es ein oberes Limit an physischem Speicher und dieses Limit kann nicht überschritten werden.
 \end{enumerate}
