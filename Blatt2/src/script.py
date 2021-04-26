@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 # Set fontsize larger for latex plots
-matplotlib.rcParams.update({'font.size': 20})
+matplotlib.rcParams.update({'font.size': 24})
 
 # Generate data from file
 for i in ["",10,20,50]:

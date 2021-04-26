@@ -28,6 +28,8 @@ show: $(OUTPUT)/*.pdf
 
 finish: $(TEX)/$(BUILD)/*.pdf 
 	 cp $(TEX)/$(BUILD)/*.pdf $(TEX_OUTPUT)
+	 cp $(TEX)/$(BUILD)/*.pdf ../Protokoll_Blatt2_Overhoff_Herdieckerhoff.pdf
+	 
 
 $(OUTPUT)/*.txt: $(BIN)/$(EXECUTABLE)
 	clear

@@ -1,6 +1,20 @@
 \section*{Aufgabe 2}
 
 \begin{enumerate}[label=\alph*)]
+    \item Ein zufälliges Gleichungssystem $Mx = b$ soll mit den Funktionen \texttt{Random} Funktionen von \texttt{Eigen} erstellt werden. 
+    Eine Variable $N$ gibt die Dimension der $N \cross N$ Matrix und die Länge $N$ des Vektors an.
+    Im ersten Schritt werden dann die Zufallsgrößen erstellt, im zweiten wird die LU-Zerlegung mit \texttt{Eigen} durchgeführt und am Ende wird das System mit der \texttt{solve}-Funktion gelöst.
+    \item Das ganze wird nun für $N = \{1, 2, \dots, 1000\}$ mit einem for-loop durchgeführt. Durch das gegebene \texttt{profiler} Modul, kann die Zeit für die einzelnen Prozesse gespeichert und gestoppt werden. 
+    Diese werden doppellogarithmisch abgespeichert und sind in Abb. \ref{fig:times} dargestellt.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{\path/output/times.pdf}
+        \caption{Die Zeiten für das erzeugen der Zufallsdaten, der LU-Zerlegung und der anschließenden Lösung des LGS sind in Abhängigkeit der Dimension $N$ doppellogarithmisch dargestellt.}
+        \label{fig:times}
+    \end{figure}
+    \item Die Zeit scheint durch die LU-Zerlegung dominiert zu werden. Diese geht offenbar mit $\mathcal{O}(N^3)$, da mit einer Größenordnung in $N$ die Zeitgrößenordnung um einen Faktor \num{3} zunimmt. Das erzeugen der zufälligen Vektoren und Matrizen geht mit $\mathcal{O}(N^2)$ und das Lösen geht mit $\mathcal{O}(N)$. Das ist alles wie erwartet.
+    Bei $N = \num{1000000}$ würde das Programm also in etwa \num{9} Größenordnungen länger dauern als bei $N=\num{1000}$, was einer Zeit von \SI{1e8}{\second} entspricht. 
+    Die Optimierung würde sich offenbar am meisten bzgl. der LU-Zerlegung auszahlen. Solange diese mit $\mathcal{O}(N^3)$ läuft, sind die anderen beiden Teile des Programms für die Laufzeit zu vernachlässigen.
     \item 
-    
 \end{enumerate}

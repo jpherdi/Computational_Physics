@@ -50,8 +50,8 @@ int main()
 
 	std::ofstream output;
 	output.open("bin/Aufgabe1.txt", std::ofstream::out | std::ofstream::trunc);
-	output << "Matrix U:\n" << U.format(CSVFormat) << std::endl;
-	output << "Matrix L:\n" <<L.format(CSVFormat) << std::endl;
+	output << "Matrix U:\n" << U << std::endl;
+	output << "Matrix L:\n" <<L << std::endl;
 	output << "Matrix P:\n" << P.format(CSVFormat) << std::endl;
 	output << "Matrix A:\n" << matA.format(CSVFormat) << std::endl;
 	output << "Matrix A_new:\n" << matA_new.format(CSVFormat) << std::endl;

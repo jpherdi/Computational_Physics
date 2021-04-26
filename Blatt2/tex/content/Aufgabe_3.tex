@@ -1,6 +1,52 @@
 \section*{Aufgabe 3}
 
 \begin{enumerate}[label=\alph*)]
-    \item 
-    
+    \item In dieser Aufgabe soll eine orthonormale Basis der Vektoren $\{\vec a_1, \vec a_2, \dots, \vec a_{10}\}$ bestimmt werden.
+    Diese ergibt sich laut der Vorlesung als die Spaltenvektoren $\vec u_i$ der Matrix $U$, zu denen die Elemente $w_i \neq 0$ der Diagonalmatrix $W$ gehören. 
+
+    Die Vektoren sind 
+    \begin{equation*}
+        \vec u_1 = 
+        \begin{pmatrix*}
+        -0.357\\
+        -0.342\\
+        -0.618\\
+        -0.611\\
+        \end{pmatrix*},
+        \vec u_2 = 
+        \begin{pmatrix*}
+         0.747\\
+        -0.305\\
+        -0.527\\
+         0.268\\
+        \end{pmatrix*},
+        \vec u_3 = 
+        \begin{pmatrix*}
+         0.411\\
+        -0.454\\
+         0.563\\
+        -0.555\\
+        \end{pmatrix*}.
+    \end{equation*}
+
+    Diese ergeben sich aus der Matrix
+    \begin{equation*}
+       U = \begin{pmatrix*}
+-0.356641&	0.746842 &	0.411155 &	0.38208 \\
+-0.342469&  -0.304627 &	-0.453846 &	0.764161 \\
+-0.618236&	-0.526903 &	0.56285 &	-0.152832 \\
+-0.610988&	0.267961 &	-0.555136 &	-0.496704 \\
+        \end{pmatrix*}
+    \end{equation*}
+
+    und der Matrix 
+    \begin{equation*}
+        W = \begin{pmatrix*}
+            39.17& 	 0	  &  0	  &  0\\
+            0	 &   14.32&	 0	  &  0\\
+            0	 &   0	  &  3.83&	 0\\
+            0	 &   0	  &  0	  &  \num{1.37e-15}\\
+         \end{pmatrix*},
+     \end{equation*}
+wobei das letzte und vierte Element eine numerische Null ist und somit der letzte Vektor $\vec u_4$ kein Teil der ONB ist.
 \end{enumerate}

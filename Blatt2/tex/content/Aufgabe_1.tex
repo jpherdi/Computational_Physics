@@ -2,7 +2,43 @@
 
 \begin{enumerate}[label=\alph*)]
 
-\item Hello everyone and every
+\item Im ersten Teil der Aufgabe sollen wir das Bild einlesen und eine Singulärwertzerlegung (SVD) durchführen.
+Die Funktion \texttt{loadData} aus der \texttt{service.cpp} Datei hilft dabei die Datei einzulesen. Anschließend speichern wir den Output in einer Textdatei ab und erzeugen mit Python eine Heatmap. Das Ergebnis ist in Abb. \ref{fig:data} zu sehen.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\textwidth]{\path/output/Bild.pdf}
+    \caption{Die originale Bilddatei in unkomprimierter Form mit einer Graustufen-Heatmap.}
+    \label{fig:data}
+\end{figure}
+
+Für die SVD werden im ersten Schritt die Matrizen $U, W, V$ erzeugt, die das ursprüngliche Bild in der Form $A = U \cdot W \cdot V^T$ ergeben.
+
+\item Für die Rang-$k$-Approximation werden die Matrizen abgeschnitten. Die $W(N,N)$ Matrix wird zu einer $W(k,k)$ Matrix. Analog müssen sich die $U(N,k)$ und $V^T(k, N)$ Matrizen transformieren.
+Für die Fälle $k = 10, 20$ und $50$ sind hier die Ergebnisse in Abb. \ref{fig:approx} dargestellt. Wie erwartet nimmt die Schärfe des Bildes durch die Komprimierung ab.
+
+\begin{figure}
+    \centering
+\begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{\path/output/Bild10.pdf}
+    \caption{$k = 10$}
+    \label{fig:data10}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{\path/output/Bild20.pdf}
+    \caption{$k = 20$}
+    \label{fig:data20}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{\path/output/Bild50.pdf}
+    \caption{$k = 50$}
+    \label{fig:data50}
+\end{subfigure}
+\caption{Das Ergebnis der Rang-$k$-Approximation for die Fälle $k = 10,20,50$.}
+\label{fig:approx}
+\end{figure}
 
 \end{enumerate}
 
