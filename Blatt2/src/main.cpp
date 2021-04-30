@@ -27,12 +27,16 @@ int main()
     Eigen::MatrixXd W = svd.singularValues().asDiagonal();
     Eigen::MatrixXd U = svd.matrixU();
     Eigen::MatrixXd V = svd.matrixV().transpose();
+
+    // Perform k-approx with values in range array
     int range[3]={10,20,50};
 	for(int i : range){
+        // Use Eigen::seq to decrease dimension of W, and of U and V respectively
         Eigen::MatrixXd W_new = W(Eigen::seq(0,i), Eigen::seq(0,i));
         Eigen::MatrixXd U_new = U(Eigen::all, Eigen::seq(0,i));
         Eigen::MatrixXd V_new = V(Eigen::seq(0,i), Eigen::all);
         Eigen::MatrixXd mat_new = U_new * W_new* V_new;
+        // Save new picture in txt file, to make a simple read out in python
         std::ofstream file;
         file.open("output/data"+std::to_string(i)+".txt", std::ofstream::out | std::ofstream::trunc);
         file << "# Picture with k:"+std::to_string(i)+"\n" << mat_new.format(CSVFormat) << std::endl; 
@@ -40,37 +44,40 @@ int main()
     }
 
     // Ex. 2
+
+    // Number of dimension N linear from 1 to 1000
     Profiler::init(3);
     int anzahl = 1000;
     int start = 1;
 
-    //Vektoren zum Speichern der gestoppten Zeiten
+    // Vectors for the building of the random NxN matrix, for the LU decomposition and the solve function
     Eigen::VectorXd random_times(anzahl - start);
     Eigen::VectorXd LU_times(anzahl - start);
     Eigen::VectorXd solve_times(anzahl - start);
 
     for (int N = start; N < anzahl; N++)
     {
-        //Alle Timer werden geresetet
+        //All timers are reseted
         Profiler::resetAll();
-        //Timer für Teil 1
+        //Timer for random initialisation and saving
         Profiler::start(0);
         Eigen::MatrixXd M = Eigen::MatrixXd::Random(N, N);
-        Profiler::stop(0);
-        Eigen::VectorXd b = Eigen::VectorXd::Random(N);
+          Profiler::stop(0);
         random_times[N - start] = Profiler::getTimeInS(0);
-        //Timer für Teil 2
+        Eigen::VectorXd b = Eigen::VectorXd::Random(N);
+        //Timer for LU decomposition without saving
         Profiler::start(1);
-        Eigen::PartialPivLU<Eigen::MatrixXd> mat(M);
+        M.partialPivLu();
         Profiler::stop(1);
         LU_times[N - start] = Profiler::getTimeInS(1);
-        //Timer für Teil 3
+        Eigen::PartialPivLU<Eigen::MatrixXd> mat(M);
+        //Timer for solve function without saving
         Profiler::start(2);
         Eigen::VectorXd x = mat.solve(b);
         Profiler::stop(2);
         solve_times[N - start] = Profiler::getTimeInS(2);
     }
-
+    // Store vectors in file
     Eigen::MatrixXd store(anzahl-start, 3);
     store << random_times, LU_times, solve_times;
     std::ofstream file2;
@@ -79,6 +86,7 @@ int main()
 	file2.close();
 
     //Ex. 3
+    // Initialize Matrix A with a1 - a10 as vector space
     Eigen::VectorXd a1(4), a2(4), a3(4), a4(4), a5(4), a6(4), a7(4), a8(4), a9(4), a10(4);
     a1 << 4., 1., 2., 4.;
     a2 << 1., 2., 6., 2.;
@@ -94,6 +102,7 @@ int main()
     Eigen::MatrixXd A(4, 10);
     A << a1, a2, a3, a4, a5, a6, a7, a8, a9, a10;
 
+    // find orthonormal basis of a1-a10 with singular value decomposition
     Eigen::JacobiSVD<Eigen::MatrixXd> svd2(A, Eigen::ComputeThinU | Eigen::ComputeThinV);
     Eigen::MatrixXd W2 = svd2.singularValues().asDiagonal();
     Eigen::MatrixXd U2 = svd2.matrixU();
@@ -101,7 +110,7 @@ int main()
 
     std::ofstream file3;
     file3.open("output/basis.txt", std::ofstream::trunc);
-
+    // basis vectors are the columns of U with w_i != 0
     for (int i = 0; i< 4; i++){
         if(W2(i,i) >= 1e-10){
             file3 << "Value W_" << i << " is not zero. The corresponding vector is\n" << U2.col(i).format(CSVFormat) << "\n\n";
