@@ -2,43 +2,73 @@
 
 \begin{enumerate}[label=\alph*)]
 
-\item Im ersten Teil der Aufgabe sollen wir das Bild einlesen und eine Singulärwertzerlegung (SVD) durchführen.
-Die Funktion \texttt{loadData} aus der \texttt{service.cpp} Datei hilft dabei die Datei einzulesen. Anschließend speichern wir den Output in einer Textdatei ab und erzeugen mit Python eine Heatmap. Das Ergebnis ist in Abb. \ref{fig:data} zu sehen.
+\item Gegeben ist eine freie lineare Federkette mit den Punktmassen $m_i$, und zwischen den Massen die Federkonstanten $k_j$ und die Federruhelänge $l_j$ mit $i \in \{1, \dots, N\}$ und $j \in \{1, \dots, N-1\}$.
+Hier wirken jeweils die Nachbarn mit dem Index $i-1, i+1$ auf die Punktmasse $m_i$.
+Die Bewegungsgleichung ergibt sich mit den 
+Relativkoordinaten $\eta_i$ zu $\vec \eta = \left(0, 0+l_1, 0+ l_1 + l_2, \dots\right)^T$ also mit $l_0 = 0$ lässt sich $\eta_i$ als
+\begin{equation*}
+    \eta_i = \sum_j^{i} l_j.
+\end{equation*}
+Nach Newton gilt $m_i \ddot{\eta_i} = - \frac{\partial}{\partial \eta_i} V(\eta_1, \eta_2, \dots, \eta_N).$
+Dadurch sich die Matrixgleichung 
+\begin{equation*}
+    M \ddot{\vec{\eta}} + K \vec{\eta} = 0.    
+\end{equation*}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.3\textwidth]{\path/output/Bild.pdf}
-    \caption{Die originale Bilddatei in unkomprimierter Form mit einer Graustufen-Heatmap.}
-    \label{fig:data}
-\end{figure}
+Dabei ist die $N \times N$-Matrix 
+\begin{equation*}
+    M = \begin{pmatrix*}
+        m_1 &0   &0     &0 \\
+        0   &m_2 &0     &0 \\
+        0   &0   &\dots &0 \\
+        0   &0   &0     &m_N \\
+    \end{pmatrix*},
+\end{equation*}
+mit den Massen auf der Diagonalen. 
+Die Matrix $K$ ist eine Tridiagonalmatrix mit 
+\begin{equation*}
+    K = \begin{pmatrix*}
+        k_1 & -k_1   &0     &0 \\
+        -k_1   &k_1+k_2 &-k_2     &0 \\
+        0   &\dots   &\dots &\dots \\
+        0   &0   &-k_{N-1}     &k_{N-1} \\
+    \end{pmatrix*}
+\end{equation*}
+definiert. 
+Die Lösung der Bewegungsgleichung lässt sich über den Ansatz
+\begin{equation*}
+    \eta_i = A_i \cdot \exp(i \omega t)
+\end{equation*}
+lösen. Dadurch ergibt sich die Matrix 
+\begin{equation*}
+    (K\cdot M^{-1} - \omega^2 \times \mathbb{1}) \cdot \vec \eta = \vec 0
+\end{equation*}
+Durch Lösen des Eigenwertproblems ergeben sich die Quadrate der Eigenfrequenzen $\omega^2$ und die Bewegungsgleichungen als die Eigenvektoren $\vec \eta$. 
 
-Für die SVD werden im ersten Schritt die Matrizen $U, W, V$ erzeugt, die das ursprüngliche Bild in der Form $A = U \cdot W \cdot V^T$ ergeben.
+In dieser Aufgabe sind wir an den Eigenwerten $\omega_i$ interessiert. Wir implementieren die Matrizen $K$ und $M^{-1}$ und multiplizieren diese miteinander. Anschließend bestimmen wir mit der \texttt{Eigen}-Funktion \texttt{eigenvalues} die Eigenwerte. Durch das Wurzelziehen der Eigenwerte lassen sich im Anschluss die Eigenfrequenzen $\omega$ bestimmen.
 
-\item Für die Rang-$k$-Approximation werden die Matrizen abgeschnitten. Die $W(N,N)$ Matrix wird zu einer $W(k,k)$ Matrix. Analog müssen sich die $U(N,k)$ und $V^T(k, N)$ Matrizen transformieren.
-Für die Fälle $k = 10, 20$ und $50$ sind hier die Ergebnisse in Abb. \ref{fig:approx} dargestellt. Wie erwartet nimmt die Schärfe des Bildes durch die Komprimierung ab.
-
-\begin{figure}
-    \centering
-\begin{subfigure}[b]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{\path/output/Bild10.pdf}
-    \caption{$k = 10$}
-    \label{fig:data10}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{\path/output/Bild20.pdf}
-    \caption{$k = 20$}
-    \label{fig:data20}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.3\textwidth}
-    \includegraphics[width=\textwidth]{\path/output/Bild50.pdf}
-    \caption{$k = 50$}
-    \label{fig:data50}
-\end{subfigure}
-\caption{Das Ergebnis der Rang-$k$-Approximation for die Fälle $k = 10,20,50$.}
-\label{fig:approx}
-\end{figure}
-
+\item In diesem Aufgabenteil waren die Massen, Federkonstanten und Längen definiert mit 
+\begin{align*}
+    m_i &= i,\\
+    k_j &= N-j,\\
+    l_j &= |5-j|+1.\\
+\end{align*}
+Alle physikalischen Größen sind einheitenlos. 
+Für ein System mit $N=10$ ergibt sich 
+\begin{equation*}
+    \vec \omega = \begin{pmatrix*}
+        3.95439 \\
+        2.62228 \\
+        1.95382 \\
+        1.51083 \\
+        1.17586 \\
+       0.901365 \\
+       0.663369 \\
+       \num{4.18e-09} \\
+        0.44762 \\
+       0.243446 \\
+    \end{pmatrix*}.
+\end{equation*}
+Einer der Einträge ist von der Ordnung $\mathcal{O}(\num{e-9})$. Dies könnte entweder eine Null sein oder entspricht einem numerischen Problem.
 \end{enumerate}
 

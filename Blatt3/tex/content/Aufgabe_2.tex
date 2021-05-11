@@ -1,20 +1,21 @@
 \section*{Aufgabe 2}
 
 \begin{enumerate}[label=\alph*)]
-    \item Ein zufälliges Gleichungssystem $Mx = b$ soll mit den Funktionen \texttt{Random} Funktionen von \texttt{Eigen} erstellt werden. 
-    Eine Variable $N$ gibt die Dimension der $N \cross N$ Matrix und die Länge $N$ des Vektors an.
-    Im ersten Schritt werden dann die Zufallsgrößen erstellt, im zweiten wird die LU-Zerlegung mit \texttt{Eigen} durchgeführt und am Ende wird das System mit der \texttt{solve}-Funktion gelöst.
-    \item Das ganze wird nun für $N = \{1, 2, \dots, 1000\}$ mit einem for-loop durchgeführt. Durch das gegebene \texttt{profiler} Modul, kann die Zeit für die einzelnen Prozesse gespeichert und gestoppt werden. 
-    Diese werden doppellogarithmisch abgespeichert und sind in Abb. \ref{fig:times} dargestellt.
 
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.8\textwidth]{\path/output/times.pdf}
-        \caption{Die Zeiten für das erzeugen der Zufallsdaten, der LU-Zerlegung und der anschließenden Lösung des LGS sind in Abhängigkeit der Dimension $N$ doppellogarithmisch dargestellt.}
-        \label{fig:times}
-    \end{figure}
-\item Ein Fit mit der Funktion $f(N) = a \cdot N^b$ ergibt, dass die LU-Zerlegung der dominierende Prozess ist. Der Fit ergibt, dass diese mit $\mathcal{O}(N^{2.5})$ geht. Das erzeugen der zufälligen Vektoren und Matrizen geht mit $\mathcal{O}(N^{2})$ und das Lösen geht mit $\mathcal{O}(N^{1.6})$. (Anmerkung: s. nächsten Aufgabenteil wegen der Speicherzeit, Die Zeiten sind nur grob angegeben, je nach CPU Ausnutzung ändern sich die Exponenten um  ca.$\pm 0.1$)
-    Bei $N = \num{1000000}$ würde das Programm also in etwa $2.4 (\text{LU}) \cdot 3 \approx 7.2$ Größenordnungen länger dauern als bei $N=\num{1000}$, was in etwa einer Zeit von \SI{1e6}{\second} entspricht, da in Abb. \ref{fig:times} abzulesen ist, dass $N=\num{1000}$ ungefähr \SI{1e-1}{\second} dauert. 
-    Die Optimierung würde sich offenbar am meisten bzgl. der LU-Zerlegung auszahlen. Solange diese mit $\mathcal{O}(N^2)$ läuft, sind die anderen beiden Teile des Programms für die Laufzeit zu vernachlässigen.
-    \item Ein weiterer numerische Faktor, der das Rechnen mit beliebig großen Matrizen einschränkt, ist der Speicherbedarf. Dies ist auch hier zu erkennen. Wir haben alle drei Schritte als Test ohne Speicherung der jeweiligen Vektoren und Matrizen berechnet und die Zeiten reduzierten sich bei der Zufallsmatrix und der Solve-Methode etwa um eine Größenordnung.
+    \item Diese Aufgabe haben wir zeitlich diese Woche nicht komplett geschafft. Wir haben die Tridiagonalisierung durch den Lanczos-Algorithmus implementiert wie in der Vorlesung vorgegeben. Leider funktioniert dieser noch nicht wie er soll und ihr braucht euch das nicht anzuschauen.
+
+    \item    
+    Die Matrix $H$ ist eine Tridiagonalmatrix wobei auf den beiden Nebendiagonalreihen jeweils $-t$ steht und nur das Diagonalelement $H(N/2, N/2)$ ist $\epsilon$. Für Dimension $N=6$ ist diese Matrix
+    \begin{equation*}
+        \begin{pmatrix}
+            0& -t& 0& 0& 0& 0 \\
+            -t&  0& -t& 0& 0& 0 \\
+            0&  -t& \eta& -t& 0& 0 \\
+            0&  0& -t& 0& -t& 0 \\
+            0&  0& 0& -t& 0& -t \\
+            0&  0& 0& 0& -t& 0 \\
+        \end{pmatrix}.
+    \end{equation*}
+    
+
 \end{enumerate}

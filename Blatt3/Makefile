@@ -23,10 +23,7 @@ run: $(BIN)/$(EXECUTABLE)
 	clear 
 	./$(BIN)/$(EXECUTABLE)
 
-show: $(OUTPUT)/*.pdf
-	$(PDF_VIEWER) $(OUTPUT)/*.pdf
-
-finish: $(TEX)/$(BUILD)/*.pdf 
+finish: $(TEX)/$(BUILD)/*.pdf | run
 	 cp $(TEX)/$(BUILD)/*.pdf $(TEX_OUTPUT)
 	 cp $(TEX)/$(BUILD)/*.pdf ../Protokoll_Blatt3_Overhoff_Herdieckerhoff.pdf
 	 
@@ -35,14 +32,11 @@ $(OUTPUT)/*.txt: $(BIN)/$(EXECUTABLE)
 	clear
 	./$(BIN)/$(EXECUTABLE)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp | $(BIN) $(OUTPUT)
+$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp | $(BIN)
 	clear
 	$(CXX) $(CXX_FLAGS)  -I $(EIGEN) $^ -o $@ $(LIBRARIES)
 
-$(OUTPUT)/*.pdf: $(OUTPUT)/*.txt $(SRC)/*.py
-	$(PY) $(SRC)/*.py
-
-$(TEX)/$(BUILD)/*.pdf: $(TEX)/*.tex $(TEX)/content/*.tex  | $(OUTPUT)/*.pdf $(TEX)/$(BUILD)
+$(TEX)/$(BUILD)/*.pdf: $(TEX)/*.tex $(TEX)/content/*.tex  | $(TEX)/$(BUILD)
 	latexmk \
 	-synctex=1 \
 	-interaction=nonstopmode \
