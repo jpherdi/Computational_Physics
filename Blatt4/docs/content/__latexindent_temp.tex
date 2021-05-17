@@ -1,0 +1,29 @@
+\section*{Aufgabe 1}
+
+In dieser Aufgabe sollen verschiedene Formeln zur Approximation von Integralen implementiert werden.
+Die Schrittweite soll so lange halbiert werden, bis die relative Änderung des Ergebnisses kleiner als $10^{-4}$ ist.
+Eine Halbierung der Schrittweite $h$ entspricht einer Verdopplung der Intervallanzahl $n$, da $h = \frac{b-a}{n}$.
+\newline
+Die zu bestimmenden Integrale sind
+\begin{align*}
+    I_1 &= \int_{1}^{100} dx \frac{e^{-x}}{x} \\
+    I_2 &= \int_{0}^{1} dx sin \left( \frac{1}{x} \right.
+\end{align*}
+
+
+\subsection*{a) Trapezregel}
+Damit die relative Abweichung der Ergebnisse kleiner als $10^{-4}$ wird, sind mit der Trapezregel für das erste Integral $I_1$ $i = \dots$ Halbierungen nötig. Die Schrittweite beträgt dann $h = \dots$.
+\newline
+Bei dem zweiten Integral $I_2$ muss $i = \dots$ mal halbiert werden und die Schrittweite beträgt $h = \dots$.
+
+\subsection*{b) Mittelpunktsregel}
+Für das erste Integral beträgt die Zahl der Halbierungen $i = \dots$ und die Schrittweite $h = \dots$.
+\newline
+Bei dem zweiten Integral sind mit der Mittelpunktsregel $i = \dots$ Halbierungen nötig und eine Schrittweite von $h = \dots$ resultiert.
+
+\subsection*{c) Simpsonregel}
+Bei Verwendung der Simpsonregel muss für das erste Integral die Schrittweite $i = \dots$ mal halbiert werden, damit die Abweichung klein genug ist. Die Schrittweite beträgt schließlich $h = \dots$.
+\newline
+Für das zweite Integral sind die Werte $i = \dots$ und $h = \dots$.
+
+\subsection*{Fazit}

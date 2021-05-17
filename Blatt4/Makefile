@@ -16,11 +16,9 @@ all: $(BIN)/$(EXECUTABLE)
 run: clean all
 	clear
 	./$(BIN)/$(EXECUTABLE)
-	python src/script.py
 
 tex: clean clean_tex all
 	./$(BIN)/$(EXECUTABLE)
-	python src/script.py
 	latexmk -synctex=1 -interaction=nonstopmode -file-line-error -lualatex -outdir=$(OUTDIR) $(TEX_FILE)
 	clear
 	cp $(OUTDIR)/main.pdf ./docs.pdf
