@@ -2,6 +2,42 @@
 
 \begin{enumerate}[label=\alph*)]
 
-\item Something very new
+\item Der BFGS-Algorithmus ist so implementiert, dass die Funktion $f$, die Gradientenfunktion $g$, der Startpunkt $\vec x_0$, die initiale Hesse-Matrix $C_0$ und die Toleranz für die Gradientennorm $\epsilon$ übergeben werden.
+\item \dots
+\item Im zweiten Teil also b) und c) wird der implementierte Algorithmus an einer Funktion, und verschiedenen Startbedingungen getestet.
+Die Funktion ist
+\begin{equation*}
+    f(x_1, x_2) = (1- x_1)^2 + 100(x_2 - x_1^2)^2.
+\end{equation*}
+Der Startvektor ist $\vec x = (-1,-1)^T$. Die Fehlertoleranz ist $\epsilon = \num{e-5}$. 
+Der Gradient ergibt als 
+\begin{equation*}
+    \vec g(x_1, x_2) = \begin{pmatrix*}
+        -2 (1-x_1) - 400 \cdot x_1 (x_2 - x_1^2) \\
+        200 (x_2 - x_1^2) \\
+    \end{pmatrix*}
+\end{equation*}
+und die Hesse Matrix ergibt sich analog als die zweiten Ableitungen, nach $x_1$ und $x_2$.
+Somit ist die Hesse Matrix 
+\begin{equation*}
+    H = \begin{pmatrix*}
+        2 - 400 \cdot(x_2 - x_1^2) + 800\cdot x_1^2 & - 400 \cdot x_1 \\
+        -400 \cdot x_1 & 200 \cdot x_2 \\
+    \end{pmatrix*}.
+\end{equation*}
+Für die Berechnung wurde die inverse Hesse Matrix gebraucht. Es wurden insgesamt drei verschiedene Varianten getestet. 
+Als erstes wurde die echte Hesse Matrix invertiert und benutzt, die Iterationen des BFGS Verfahrens waren \num{53}. Die genäherte Variante, in der nur die Diagonalelemente beachtet wurden und invertiert wurden, ergab \num{38} Iterationen. Das BFGS Verfahren für eine Einheitsmatrix, die mit einem konstanten Vorfaktor, in diesem Fall $f(-1,-1) = 404$, multipliziert wurde, ergab \num{74} Iterationen.
+Damit brauchte die aufwendigste Berechnung, nämlich die Bestimmung der tatsächlichen Hesse Matrix nicht den größten Vorteil an Iterationsschritten. Die genäherte Variante war noch effizienter. Die letzte Näherung brauchte fast doppelt so viele Schritte wie die simple Inverse der Matrix. In diesem Fall ergibt dies aber auch Sinn, da der Startvektor bereits nah am Minimum lag und die Größenordnung der Funktionswerte weit über den Entfernungen zwischen Start und Minimum lagen. Damit wurde der Wert durch $C_0$ bei c) im ersten Schritt weit entfernt.
+Die Entwicklung ist in Abb. \ref{fig:bfgs} dargestellt. Darin ist zu erkennen, dass die Hesse Matrix Variante sich anfangs über das Minimum hinaus bewegt und anschließend in einigen Schritten zurück kommt. Daher hat sie etwa 15 Schritte mehr als die einfache Hesse Matrix Variante.
+Im Vergleich zum letzten Blatt Nr.2a) sind die Iterationen besser als das Gradienten-Verfahren (vgl. Osthues, Rönsch: 4700), aber schlechter als das Konjugierte-Gradienten-Verfahren (vgl. Osthues, Rönsch: 14). Im Zweifel läuft dieses Verfahren aber trotzdem schneller, weil nur einmal minimiert wird. Da wir aber leider die Aufgabe 2) beim letzten mal nicht gemacht haben, kann ich die Zeit nicht quantifizieren.
+In Iterationen war das Konjugierte-Gradienten-Verfahren schneller.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{\path/output/bfgs.pdf}
+    \caption{Nicht super gut dargestellt, aber der Weg ist wohl halbwegs zu erkennen.
+    Die Inverse Hesse Matrix Methode und die Einheitsmatrix Methode bewegen sich erst über das Minimum hinweg und kommen anschließend zurück, während die Inverse Diagonal Hesse Matrix Methode direkt in das Minimum findet und somit weniger Iterationsschritte benötigt.}
+    \label{fig:bfgs}
+\end{figure}
 \end{enumerate}
 
